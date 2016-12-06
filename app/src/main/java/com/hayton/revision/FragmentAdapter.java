@@ -55,9 +55,9 @@ public class FragmentAdapter extends FragmentPagerAdapter {
 
             View v = inflater.inflate(R.layout.img_fragment,null);
             NetworkImageView imageView = (NetworkImageView) v.findViewById(R.id.networkImage);
+            ImageLoader loader = VolleySingleton.getInstance(this.getContext()).getImageLoader();
 
             if (imageUrl.size()!=0) {
-                ImageLoader loader = VolleySingleton.getInstance(this.getContext()).getImageLoader();
                 imageView.setImageUrl(imageUrl.get(getArguments().getInt("position")), loader);
             }
 
