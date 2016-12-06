@@ -45,15 +45,15 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         super.onBaseCreate();
 
-        Intent intent = getIntent();
-        handleIntent(intent);
-
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
         pager = (ViewPager) findViewById(R.id.pager);
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressLayout = (RelativeLayout) findViewById(R.id.progresslayout);
         progressLayout.setVisibility(View.GONE);
+
+        Intent intent = getIntent();
+        handleIntent(intent);
 
         imageUrl = new ArrayList<>();
         defaultImg = new ArrayList<>();
