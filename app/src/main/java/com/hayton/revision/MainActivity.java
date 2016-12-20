@@ -6,13 +6,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.support.v7.widget.SearchView;
+import android.widget.TextView;
 
 
 import com.android.volley.Request;
@@ -34,7 +39,7 @@ public class MainActivity extends BaseActivity {
 
     private FragmentAdapter adapter;
     private ViewPager pager;
-    private ArrayList<Integer> defaultImg;
+    //private ArrayList<Integer> defaultImg;
     private ArrayList<String> imageUrl;
     private RelativeLayout progressLayout;
     private CircleIndicator indicator;
@@ -55,16 +60,60 @@ public class MainActivity extends BaseActivity {
         //handleIntent(intent);
 
         imageUrl = new ArrayList<>();
-        defaultImg = new ArrayList<>();
+        ArrayList<Integer> defaultImg = new ArrayList<>();
         defaultImg.add(R.drawable.default_first);
         defaultImg.add(R.drawable.default_second);
         defaultImg.add(R.drawable.default_third);
         defaultImg.add(R.drawable.default_fourth);
         defaultImg.add(R.drawable.default_fifth);
 
-        adapter = new FragmentAdapter(getSupportFragmentManager(), imageUrl, defaultImg);
-        pager.setAdapter(adapter);
+        //adapter = new FragmentAdapter(getSupportFragmentManager(), imageUrl, defaultImg);
+
+        class viewPagerAdapter extends PagerAdapter {
+
+            ArrayList<Integer> defaultImg;
+
+            public viewPagerAdapter(ArrayList<Integer> defaultImg) {
+                this.defaultImg = defaultImg;
+            }
+
+
+            @Override
+            public int getCount() {
+                return defaultImg.size();
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                LayoutInflater inflater = (LayoutInflater) getApplicationContext()
+                        .getSystemService(getApplicationContext().LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.item_featuredvideo, container, false);
+                TextView featuredVideoTextView = (TextView) view.findViewById(R.id.tv_featuredvideo);
+                ImageView featuredVideoImageView = (ImageView) view.findViewById(R.id.iv_featuredvideo);
+
+                container.addView(view);
+
+                featuredVideoImageView.setImageDrawable(getResources().getDrawable(defaultImg.get(position)));
+                return view;
+            }
+
+            @Override
+            public boolean isViewFromObject(View view, Object object) {
+                return view == object;
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object view) {
+                container.removeView((View) view);
+            }
+        }
+
+        //viewPagerAdapter adapter = new viewPagerAdapter(defaultImg);
+
+        pager.setAdapter(new viewPagerAdapter(defaultImg));
         indicator.setViewPager(pager);
+
+
 
     }
 
@@ -99,10 +148,10 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         setIntent(intent);
-        handleIntent(intent);
+        //handleIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
+    /*private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())){
             progressLayout.setVisibility(View.VISIBLE);
             progressLayout.bringToFront();
@@ -155,7 +204,7 @@ public class MainActivity extends BaseActivity {
             VolleySingleton.getInstance(this).addToRequestQueue(request);
 
         }
-    }
+    }*/
 
 
 }
