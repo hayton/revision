@@ -36,8 +36,8 @@ public class MainActivity extends BaseActivity {
     private ViewPager pager;
     private ArrayList<Integer> defaultImg;
     private ArrayList<String> imageUrl;
-    private ProgressBar progressBar;
     private RelativeLayout progressLayout;
+    private CircleIndicator indicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +46,13 @@ public class MainActivity extends BaseActivity {
         super.onBaseCreate();
 
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        CircleIndicator indicator = (CircleIndicator) findViewById(R.id.indicator);
+        indicator = (CircleIndicator) findViewById(R.id.indicator);
         pager = (ViewPager) findViewById(R.id.pager);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressLayout = (RelativeLayout) findViewById(R.id.progresslayout);
         progressLayout.setVisibility(View.GONE);
 
-        Intent intent = getIntent();
-        handleIntent(intent);
+        //Intent intent = getIntent();
+        //handleIntent(intent);
 
         imageUrl = new ArrayList<>();
         defaultImg = new ArrayList<>();
@@ -64,7 +63,6 @@ public class MainActivity extends BaseActivity {
         defaultImg.add(R.drawable.default_fifth);
 
         adapter = new FragmentAdapter(getSupportFragmentManager(), imageUrl, defaultImg);
-
         pager.setAdapter(adapter);
         indicator.setViewPager(pager);
 
@@ -140,7 +138,6 @@ public class MainActivity extends BaseActivity {
                         }
                         System.out.println("fucking image url:> "+imageUrl);
                         adapter = new FragmentAdapter(getSupportFragmentManager(), imageUrl, defaultImg);
-
                         pager.setAdapter(adapter);
                         progressLayout.setVisibility(View.GONE);
                     } catch (JSONException e) {
